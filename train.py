@@ -75,7 +75,7 @@ def train(train_loader, model, optimizer, epoch, train_save):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-     # 设置超参数
+     # Set super parameters
     parser.add_argument('--epoch', type=int, default=100,
                         help='epoch number')
     parser.add_argument('--lr', type=float, default=1e-4,
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     image_root = '{}/image/'.format(opt.train_path)
     gt_root = '{}/mask/'.format(opt.train_path)
 
-    # 加载数据集
+    # Load Dataset
     train_loader = get_loader(image_root, gt_root,
                               batchsize=opt.batchsize, trainsize=opt.trainsize, num_workers=opt.num_workers)
     total_step = len(train_loader)

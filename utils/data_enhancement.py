@@ -12,7 +12,7 @@ class Augmentation:
 
     def rotate(self, image, mask, angle=None):
         if angle == None:
-            angle = transforms.RandomRotation.get_params([-10, 10])  # -180~180随机选一个角度旋转
+            angle = transforms.RandomRotation.get_params([-10, 10])  # -180~180 randomly select an angle for rotation
         if isinstance(angle, list):
             angle = random.choice(angle)
         image = image.rotate(angle)
@@ -21,7 +21,7 @@ class Augmentation:
         #mask = tf.to_tensor(mask)
         return image, mask
 
-    def flip(self, image, mask):  # 水平翻转和垂直翻转
+    def flip(self, image, mask):  # Flip Horizontal and Flip Vertical
         if random.random() >= 0.5:
             image = tf.hflip(image)
             mask = tf.hflip(mask)
@@ -33,7 +33,7 @@ class Augmentation:
         return image, mask
 
     def randomResizeCrop(self, image, mask, scale=(0.8, 1.2),
-                         ratio=(1, 1)):  # scale表示随机crop出来的图片会在的0.8倍至1倍之间，ratio表示长宽比
+                         ratio=(1, 1)):  # Scale indicates that the image randomly cropped will be between 0.8 and 1 times of, and ratio indicates the aspect ratio
         img = np.array(image)
         h_image, w_image = img.shape[1:3]
         resize_size = h_image
@@ -45,7 +45,7 @@ class Augmentation:
         return image, mask
 
     def adjustContrast(self, image, mask):
-        factor = transforms.RandomRotation.get_params([0, 10])  # 这里调增广后的数据的对比度
+        factor = transforms.RandomRotation.get_params([0, 10])  # Here is the contrast of the augmented data
         image = tf.adjust_contrast(image, factor)
         # mask = tf.adjust_contrast(mask,factor)
         #image = tf.to_tensor(image)
@@ -53,23 +53,23 @@ class Augmentation:
         return image, mask
 
     def adjustBrightness(self, image, mask):
-        factor = transforms.RandomRotation.get_params([1, 2])  # 这里调增广后的数据亮度
+        factor = transforms.RandomRotation.get_params([1, 2])  # Here, the brightness of the adjusted data
         image = tf.adjust_brightness(image, factor)
         # mask = tf.adjust_contrast(mask, factor)
         #image = tf.to_tensor(image)
         #mask = tf.to_tensor(mask)
         return image, mask
 
-    def centerCrop(self, image, mask, size=None):  # 中心裁剪
-        if size == None: size = image.size  # 若不设定size，则是原图。
+    def centerCrop(self, image, mask, size=None):  # Center clipping
+        if size == None: size = image.size  # If size is not set, it is the original image.
         image = tf.center_crop(image, size)
         mask = tf.center_crop(mask, size)
         #image = tf.to_tensor(image)
         #mask = tf.to_tensor(mask)
         return image, mask
 
-    def adjustSaturation(self, image, mask):  # 调整饱和度
-        factor = transforms.RandomRotation.get_params([1, 2])  # 这里调增广后的数据对比度
+    def adjustSaturation(self, image, mask):  # Adjust Saturation
+        factor = transforms.RandomRotation.get_params([1, 2])  # Here is the adjusted data contrast
         image = tf.adjust_saturation(image, factor)
         # mask = tf.adjust_saturation(mask, factor)
         #image = tf.to_tensor(image)
@@ -79,10 +79,10 @@ class Augmentation:
 
 def augmentationData(img_path, mask_path, option=[0], save_dir=None):
     '''
-    :param image_path: 图片的路径
-    :param mask_path: mask的路径
-    :param option: 需要哪种增广方式：1为旋转，2为翻转，3为随机裁剪并恢复原本大小，4为调整对比度，5为中心裁剪(不恢复原本大小)，6为调整亮度,7为饱和度
-    :param save_dir: 增广后的数据存放的路径
+    :param image_path:
+    :param mask_path:
+    :param option: Which augmentation method is required: 1 is rotation, 2 is flipping, 3 is random clipping and restoring the original size, 4 is adjusting contrast, 5 is central clipping (not restoring the original size), 6 is adjusting brightness, 7 is saturation
+    :param save_dir:
     '''
     aug = Augmentation()
     image = Image.open(img_path)
